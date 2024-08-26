@@ -10,7 +10,7 @@ function App() {
         </h1>
       </div>
 
-      <div className="dark:bg-slate-800 min-h-[100vh] text-[calc(10px + 2vmin)] text-white flex flex-col pt-12 items-center gap-5">
+      <div className="dark:bg-slate-800 min-h-[100vh] text-[calc(10px + 2vmin)] text-white flex flex-col pt-12 items-center gap-3">
         <input
           className="dark:bg-slate-900 rounded-md dark:text-gray-200 p-2"
           value="Enter URL"

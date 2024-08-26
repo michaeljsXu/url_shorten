@@ -1,25 +1,26 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./styles/tw.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="flex justify-center dark:bg-slate-800">
+        <h1 className="text-9xl font-bold justify-self-start dark:text-slate-300">
+          URL Shortener
+        </h1>
+      </div>
+
+      <div className="dark:bg-slate-800 min-h-[100vh] text-[calc(10px + 2vmin)] text-white flex flex-col pt-12 items-center gap-5">
+        <input
+          className="dark:bg-slate-900 rounded-md dark:text-gray-200 p-2"
+          value="Enter URL"
+        ></input>
+
+        <button className="bg-gray-200 rounded-md dark:text-black p-2 max-w-20">
+          Shorten!
+        </button>
+      </div>
+    </>
   );
 }
 

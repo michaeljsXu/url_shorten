@@ -20,8 +20,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "node --watch ./server.js",
-    "start": "node ./server.js"
+    "dev": "node --watch ./src/server.js",
+    "start": "node ./src/server.js"
   },
   "eslintConfig": {
     "extends": [
@@ -43,7 +43,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6"
   },
-  "main": "server.js",
+  "main": "./src/server.js",
   "author": "",
   "license": "ISC",
   "description": ""

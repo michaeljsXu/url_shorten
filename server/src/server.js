@@ -12,6 +12,10 @@ const port = 5050;
 app.use(express.static(__dirname + "/build"));
 app.use("/api", bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  console.log(req.body);
+  next();
+});
 
 app.get("/", (req, res) => {
   res.sendFile("index.html");
@@ -20,26 +24,27 @@ app.get("/", (req, res) => {
 app.get("/api/shorturl/:id", async (req, res) => {
   try {
     const url = await UrlModel.findOne({ index: req.params.id });
+    if (url == {}) throw new Error();
     res.redirect(url.url);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({"error": "No short URL found for the given input"});
   }
 });
 
 app.get("/api/shorturl/", async (req, res) => {
   try {
     const url = await UrlModel.findOne({ index: req.body.id });
+    if (url == {}) throw new Error();
     res.json({ url: url.url });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({"error": "No short URL found for the given input"});
   }
 });
 
 app.post("/api/shorturl/", async (req, res) => {
   const full_url = clean_url(req.body.url);
   
-  const address = await lookupPromise(req.body.url);
-  if (!address) res.status(400).json({ "error": "invalid url"});
+  if (!full_url || !await lookupPromise(full_url)) res.status(400).json({ "error": "invalid url"});
   try {
     const result = await UrlModel.findOne({ url: full_url });
     let short_url = -1;

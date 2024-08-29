@@ -2,9 +2,17 @@ import dns from 'dns';
 
 export function clean_url(url) {
   let full_url = url;
-  if (!full_url.startsWith("http://") && !full_url.startsWith("https://")) {
-    full_url = "http://" + url;
+  try {
+    if (!full_url.startsWith("http://") && !full_url.startsWith("https://")) {
+      full_url = "http://" + url;
+    }
   }
+  catch (error)
+  {
+    console.log(error);
+    full_url="";
+  }
+  
   return full_url;
 }
 

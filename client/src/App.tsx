@@ -1,9 +1,14 @@
 import { useState } from "react";
 import "./styles/tw.css";
+import packageJson from '../package.json';
+
+const proxy = packageJson.proxy;
+const api_url = proxy + "/api/shorturl/"
 
 function App() {
   const [urlInput, setUrlInput] = useState("Enter URL");
   const [shortenUrl, setShortenUrl] = useState("");
+  const statusMessage = shortenUrl === 'error' ? "Error with converting URL" : `Your shortened link is ` + api_url + shortenUrl;
 
   const handleURLChange = (e: React.FormEvent<HTMLInputElement>) => {
     setUrlInput(e.currentTarget.value);
@@ -19,7 +24,8 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setShortenUrl(''+data.shorten_url)
+        if ('error' in data) setShortenUrl('error')
+        else setShortenUrl(''+data.shorten_url)
       });
   };
 
@@ -35,7 +41,7 @@ function App() {
         <input
           onChange={handleURLChange}
           className="dark:bg-slate-900 rounded-md dark:text-gray-200 p-2 text-3xl"
-          defaultValue="Enter URL"
+          placeholder="Enter URL"
         ></input>
 
         <button
@@ -45,7 +51,7 @@ function App() {
           Shorten!
         </button>
 
-        {shortenUrl && <div className="text-xl">Your shortened link is {shortenUrl}</div>}
+        {shortenUrl && <a className="text-xl" href={api_url+shortenUrl}>{statusMessage}</a>}
       </div>
     </>
   );

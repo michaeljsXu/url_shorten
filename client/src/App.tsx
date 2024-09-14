@@ -1,21 +1,19 @@
 import { useState } from "react";
 import "./styles/tw.css";
-import packageJson from '../package.json';
 
-const proxy = packageJson.proxy;
-const api_url = proxy + "/api/shorturl/"
+const api_url = "http://localhost:5050/api/shorturl/";
 
 function App() {
   const [urlInput, setUrlInput] = useState("Enter URL");
-  const [shortenUrl, setShortenUrl] = useState("");
-  const statusMessage = shortenUrl === 'error' ? "Error with converting URL" : `Your shortened link is ` + api_url + shortenUrl;
+  const [shortUrl, setShortUrl] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleURLChange = (e: React.FormEvent<HTMLInputElement>) => {
     setUrlInput(e.currentTarget.value);
   };
 
   const handleShortenClick = () => {
-    fetch(`/api/shorturl`, {
+    fetch(api_url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -24,8 +22,14 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        if ('error' in data) setShortenUrl('error')
-        else setShortenUrl(''+data.shorten_url)
+        if ("error" in data) setStatusMessage("Error converting URL");
+        else {
+          setStatusMessage("Your shortened url is: " + api_url + data.shorten_url);
+          setShortUrl(api_url + data.shorten_url);
+        }
+      })
+      .catch((error) => {
+        setStatusMessage(error);
       });
   };
 
@@ -51,7 +55,11 @@ function App() {
           Shorten!
         </button>
 
-        {shortenUrl && <a className="text-xl" href={api_url+shortenUrl}>{statusMessage}</a>}
+        {statusMessage && (
+          <a className="text-xl" href={shortUrl}>
+            {statusMessage}
+          </a>
+        )}
       </div>
     </>
   );

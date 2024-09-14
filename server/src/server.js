@@ -21,7 +21,7 @@ async function createUrl(full_url) {
 }
 
 app.use(cors());
-app.use(express.static(__dirname + "/build"));
+app.use(express.static(__dirname + "/public"));
 app.use("/api", bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use((req, res, next) => {

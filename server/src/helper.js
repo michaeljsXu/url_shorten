@@ -3,26 +3,25 @@
 export function clean_url(url) {
   let cleaned_url;
 
-  if (url.indexOf("://") != -1)
-  {
+  if (url.indexOf("://") != -1) {
     // remove protocol
-    cleaned_url = url.split('/')[2];
-  } 
+    cleaned_url = url.split("/")[2];
+  } else {
+    // remove everything after .com
+    cleaned_url = url.split("/")[0];
+  }
 
-  // remove everything after .com
-  cleaned_url = url.split('/')[0];
   // remove port
-  cleaned_url = cleaned_url.split(':')[0];
+  cleaned_url = cleaned_url.split(":")[0];
   // remove params
-  cleaned_url = cleaned_url.split('?')[0];
+  cleaned_url = cleaned_url.split("?")[0];
 
   return cleaned_url;
 }
 
 // given a url, if it does not have the protocol, add one
 export function http_url(url) {
-  if (url.indexOf("://") == -1)
-  {
+  if (url.indexOf("://") == -1) {
     url = "http://" + url;
   }
   return url;
